@@ -1,14 +1,6 @@
-package main
+package internal
 
 import "math/rand"
-
-type BigramMap [128][128]int
-type Chain map[string][]Transition
-
-type Transition struct {
-	Next   string
-	Weight float64
-}
 
 var P_CC = 0.3868
 var P_CV = 0.6132

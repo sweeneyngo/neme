@@ -1,8 +1,7 @@
-package main
+package internal
 
 import "strings"
 
-// CleanWord removes non-alphabetic characters from a word.
 func CleanWord(word string) string {
 	var sb strings.Builder
 	for _, r := range word {

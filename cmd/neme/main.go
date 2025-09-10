@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"neme/internal"
 	"os"
 	"runtime"
 	"strings"
@@ -42,7 +43,7 @@ func main() {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		word := strings.TrimSpace(scanner.Text())
-		word = CleanWord(word)
+		word = internal.CleanWord(word)
 		if len(word) >= *lengthMin && len(word) <= *lengthMax {
 			words = append(words, title.String(strings.ToLower(word)))
 		}
@@ -55,31 +56,31 @@ func main() {
 		log.Fatal("No words found in corpus with given length constraints")
 	}
 
-	cachePath := cacheFileName(*corpusPath, *order)
+	cachePath := internal.CacheFileName(*corpusPath, *order)
 
-	var chain Chain
-	var bigramCounts BigramMap
+	var chain internal.Chain
+	var bigramCounts internal.BigramMap
 	var weightedStarterKeys []string
 
-	if cached, ok := LoadCache(cachePath); ok {
+	if cached, ok := internal.LoadCache(cachePath); ok {
 		chain = cached.Chain
 		weightedStarterKeys = cached.WeightedStarterKeys
 	} else {
-		bigramCounts = BuildBigramCounts(words)
-		chain = BuildChain(words, *order, bigramCounts)
-		weightedStarterKeys = BuildStarterKeys(words, *order)
-		data := CacheData{
+		bigramCounts = internal.BuildBigramCounts(words)
+		chain = internal.BuildChain(words, *order, bigramCounts)
+		weightedStarterKeys = internal.BuildStarterKeys(words, *order)
+		data := internal.CacheData{
 			Chain:               chain,
 			WeightedStarterKeys: weightedStarterKeys,
 		}
-		if err := SaveCache(cachePath, data); err != nil {
+		if err := internal.SaveCache(cachePath, data); err != nil {
 			log.Printf("Warning: failed to save cache: %v\n", err)
 		}
 	}
 
 	// Collect results
 	numWorkers := runtime.NumCPU()
-	names := Generate(*count, chain, *lengthMin, *lengthMax, weightedStarterKeys, numWorkers)
+	names := internal.Generate(*count, chain, *lengthMin, *lengthMax, weightedStarterKeys, numWorkers)
 	for _, sn := range names {
 		fmt.Println(sn)
 	}

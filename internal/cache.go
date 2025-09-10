@@ -1,4 +1,4 @@
-package main
+package internal
 
 import (
 	"crypto/sha256"
@@ -10,12 +10,7 @@ import (
 	"path/filepath"
 )
 
-type CacheData struct {
-	Chain               Chain
-	WeightedStarterKeys []string
-}
-
-func cacheFileName(corpusPath string, order int) string {
+func CacheFileName(corpusPath string, order int) string {
 	data, err := os.ReadFile(corpusPath)
 	if err != nil {
 		log.Fatal(err)
