@@ -1,0 +1,28 @@
+version: 2
+
+project_name: neme
+
+builds:
+  - main: ./main.go
+    binary: neme
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - format: tar.gz
+    format_overrides:
+      - goos: windows
+        format: zip
+
+changelog:
+  sort: asc
+
+release:
+  github:
+    owner: sweeneyngo
+    name: neme
