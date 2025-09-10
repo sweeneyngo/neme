@@ -14,7 +14,10 @@ builds:
       - arm64
 
 archives:
-  - format: tar.gz
+  - id: default
+    format: tar.gz
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    wrap_in_directory: false
     format_overrides:
       - goos: windows
         format: zip
