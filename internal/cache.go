@@ -1,30 +1,13 @@
 package internal
 
 import (
-	"crypto/sha256"
 	"encoding/gob"
-	"encoding/hex"
 	"fmt"
-	"log"
 	"os"
-	"path/filepath"
 )
 
-func CacheFileName(corpusPath string, order int) string {
-	data, err := os.ReadFile(corpusPath)
-	if err != nil {
-		log.Fatal(err)
-	}
-	hash := sha256.Sum256(data)
-	shortHash := hex.EncodeToString(hash[:8]) // just 8 bytes for readability
-	cacheDir := ".cache"
-
-	// Ensure cache dir exists
-	if err := os.MkdirAll(cacheDir, 0o755); err != nil {
-		log.Fatal(err)
-	}
-
-	return filepath.Join(cacheDir, fmt.Sprintf("cache-order%d-%s.gob", order, shortHash))
+func CacheFileName(order int) string {
+	return fmt.Sprintf(".cache/cache-order%d.gob", order)
 }
 
 func LoadCache(path string) (CacheData, bool) {

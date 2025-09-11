@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: monospace;
+            margin: 0;
+        }
+
+        #names {
+            text-align: center;
+        }
+
+        #names p {
+            margin: 2px 0;
+            /* tighten spacing */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="names"></div>
+
+    <script>
+        async function loadNames() {
+            try {
+                const res = await fetch("https://neme.fly.dev/names");
+                const names = await res.json();
+                const container = document.getElementById("names");
+
+                names.forEach(n => {
+                    const p = document.createElement("p");
+                    p.textContent = n;
+                    container.appendChild(p);
+                });
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        loadNames();
+    </script>
+</body>
+
+</html>

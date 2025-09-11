@@ -1,4 +1,3 @@
-.cache
 *.txt
 
 # Go build cache
@@ -10,4 +9,3 @@
 
 # Output
 dist/
-neme

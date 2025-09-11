@@ -56,7 +56,7 @@ func main() {
 		log.Fatal("No words found in corpus with given length constraints")
 	}
 
-	cachePath := internal.CacheFileName(*corpusPath, *order)
+	cachePath := internal.CacheFileName(*order)
 
 	var chain internal.Chain
 	var bigramCounts internal.BigramMap
